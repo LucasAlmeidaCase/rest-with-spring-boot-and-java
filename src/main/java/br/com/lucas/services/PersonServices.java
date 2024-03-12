@@ -38,11 +38,6 @@ public class PersonServices {
 
 		logger.info("Finding one person!");
 
-		PersonVO person = new PersonVO();
-		person.setFirstName("Leandro");
-		person.setLastName("Costa");
-		person.setAddress("Uberlândia - Minas Gerais - Brasil");
-		person.setGender("Male");
 		var entity = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 		var vo = DozerMapper.parseObject(entity, PersonVO.class);
