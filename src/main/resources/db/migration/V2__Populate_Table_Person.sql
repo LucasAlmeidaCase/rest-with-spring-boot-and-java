@@ -52,7 +52,7 @@ VALUES
    'Mvezo – South Africa',
    'Nelson',
    'Male',
-   'Mvezo'
+   'Mandela'
 ),
 
 (
