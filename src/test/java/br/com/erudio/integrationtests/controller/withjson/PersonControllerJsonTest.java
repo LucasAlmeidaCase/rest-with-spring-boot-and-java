@@ -50,7 +50,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	public void authorization() throws JsonMappingException, JsonProcessingException {
 		AccountCredentialsVO user = new AccountCredentialsVO("leandro", "admin123");
 
-		var accessToken = given().basePath("/auth/sigin").port(TestsConfigs.SERVER_PORT)
+		var accessToken = given().basePath("/auth/signin").port(TestsConfigs.SERVER_PORT)
 				.contentType(TestsConfigs.CONTENT_TYPE_JSON)
 				.header(TestsConfigs.HEADER_PARAM_ORIGIN, TestsConfigs.ORIGIN_ERUDIO)
 				.body(user).when().post().then().statusCode(200).extract()
