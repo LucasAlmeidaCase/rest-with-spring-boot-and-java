@@ -1,6 +1,6 @@
 package br.com.erudio.configs;
 
-public class TestsConfigs {
+public class TestConfigs {
 
 	public static final int SERVER_PORT = 8888;
 	public static final String HEADER_PARAM_AUTHORIZATION = "Authorization";

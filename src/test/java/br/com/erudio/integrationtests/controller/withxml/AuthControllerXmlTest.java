@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import br.com.erudio.configs.TestsConfigs;
+import br.com.erudio.configs.TestConfigs;
 import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import br.com.erudio.integrationtests.vo.AccountCredentialsVO;
 import br.com.erudio.integrationtests.vo.TokenVO;
@@ -28,9 +28,9 @@ public class AuthControllerXmlTest extends AbstractIntegrationTest {
 	public void testSignin() throws JsonMappingException, JsonProcessingException {
 		AccountCredentialsVO user = new AccountCredentialsVO("leandro", "admin123");
 
-		tokenVO = given().basePath("/auth/signin").port(TestsConfigs.SERVER_PORT)
-				.contentType(TestsConfigs.CONTENT_TYPE_XML)
-				.header(TestsConfigs.HEADER_PARAM_ORIGIN, TestsConfigs.ORIGIN_ERUDIO).body(user).when().post().then()
+		tokenVO = given().basePath("/auth/signin").port(TestConfigs.SERVER_PORT)
+				.contentType(TestConfigs.CONTENT_TYPE_XML)
+				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_ERUDIO).body(user).when().post().then()
 				.statusCode(200).extract().body().as(TokenVO.class);
 
 		assertNotNull(tokenVO.getAccessToken());
@@ -42,11 +42,11 @@ public class AuthControllerXmlTest extends AbstractIntegrationTest {
 	public void testRefresh() throws JsonMappingException, JsonProcessingException {
 		AccountCredentialsVO user = new AccountCredentialsVO("leandro", "admin123");
 
-		var newTokenVO = given().basePath("/auth/refresh").port(TestsConfigs.SERVER_PORT)
-				.contentType(TestsConfigs.CONTENT_TYPE_XML)
-				.header(TestsConfigs.HEADER_PARAM_ORIGIN, TestsConfigs.ORIGIN_ERUDIO)
+		var newTokenVO = given().basePath("/auth/refresh").port(TestConfigs.SERVER_PORT)
+				.contentType(TestConfigs.CONTENT_TYPE_XML)
+				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_ERUDIO)
 				.pathParam("username", tokenVO.getUsername())
-				.header(TestsConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenVO.getRefreshToken()).when()
+				.header(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenVO.getRefreshToken()).when()
 				.put("{username}").then().statusCode(200).extract().body().as(TokenVO.class);
 
 		assertNotNull(newTokenVO.getAccessToken());

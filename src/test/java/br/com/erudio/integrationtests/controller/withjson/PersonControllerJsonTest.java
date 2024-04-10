@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.erudio.configs.TestsConfigs;
+import br.com.erudio.configs.TestConfigs;
 import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import br.com.erudio.integrationtests.vo.AccountCredentialsVO;
 import br.com.erudio.integrationtests.vo.PersonVO;
@@ -50,15 +50,15 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	public void authorization() throws JsonMappingException, JsonProcessingException {
 		AccountCredentialsVO user = new AccountCredentialsVO("leandro", "admin123");
 
-		var accessToken = given().basePath("/auth/signin").port(TestsConfigs.SERVER_PORT)
-				.contentType(TestsConfigs.CONTENT_TYPE_JSON)
-				.header(TestsConfigs.HEADER_PARAM_ORIGIN, TestsConfigs.ORIGIN_ERUDIO)
+		var accessToken = given().basePath("/auth/signin").port(TestConfigs.SERVER_PORT)
+				.contentType(TestConfigs.CONTENT_TYPE_JSON)
+				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_ERUDIO)
 				.body(user).when().post().then().statusCode(200).extract()
 				.body().as(TokenVO.class).getAccessToken();
 
 		specification = new RequestSpecBuilder()
-				.addHeader(TestsConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + accessToken)
-				.setBasePath("/api/person/v1").setPort(TestsConfigs.SERVER_PORT)
+				.addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + accessToken)
+				.setBasePath("/api/person/v1").setPort(TestConfigs.SERVER_PORT)
 				.addFilter(new RequestLoggingFilter(LogDetail.ALL)).addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 				.build();
 	}
@@ -68,8 +68,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	public void testCreate() throws JsonMappingException, JsonProcessingException {
 		mockPerson();
 
-		var content = given().spec(specification).contentType(TestsConfigs.CONTENT_TYPE_JSON)
-				.header(TestsConfigs.HEADER_PARAM_ORIGIN, TestsConfigs.ORIGIN_ERUDIO).body(person).when().post().then()
+		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON)
+				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_ERUDIO).body(person).when().post().then()
 				.statusCode(200).extract().body().asString();
 
 		PersonVO persistedPerson = objectMapper.readValue(content, PersonVO.class);
@@ -96,8 +96,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	public void testCreateWithWrongOrigin() throws JsonMappingException, JsonProcessingException {
 		mockPerson();
 
-		var content = given().spec(specification).contentType(TestsConfigs.CONTENT_TYPE_JSON)
-				.header(TestsConfigs.HEADER_PARAM_ORIGIN, TestsConfigs.ORIGIN_SEMERU).body(person).when().post().then()
+		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON)
+				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_SEMERU).body(person).when().post().then()
 				.statusCode(403).extract().body().asString();
 
 		assertNotNull(content);
@@ -109,8 +109,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	public void testFindById() throws JsonMappingException, JsonProcessingException {
 		mockPerson();
 
-		var content = given().spec(specification).contentType(TestsConfigs.CONTENT_TYPE_JSON)
-				.header(TestsConfigs.HEADER_PARAM_ORIGIN, TestsConfigs.ORIGIN_ERUDIO)
+		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON)
+				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_ERUDIO)
 				.pathParam("id", person.getId()).when().get("{id}").then().statusCode(200).extract().body().asString();
 
 		PersonVO persistedPerson = objectMapper.readValue(content, PersonVO.class);
@@ -137,8 +137,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	public void testFindByIdWithWrongOrigin() throws JsonMappingException, JsonProcessingException {
 		mockPerson();
 
-		var content = given().spec(specification).contentType(TestsConfigs.CONTENT_TYPE_JSON)
-				.header(TestsConfigs.HEADER_PARAM_ORIGIN, TestsConfigs.ORIGIN_SEMERU).pathParam("id", person.getId())
+		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON)
+				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_SEMERU).pathParam("id", person.getId())
 				.when().get("{id}").then().statusCode(403).extract().body().asString();
 
 		assertNotNull(content);
