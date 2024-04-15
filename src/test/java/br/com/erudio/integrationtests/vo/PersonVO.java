@@ -14,7 +14,7 @@ public class PersonVO implements Serializable {
 	private String lastName;
 	private String address;
 	private String gender;
-	private String enabled;
+	private Boolean enabled;
 
 	public PersonVO() {
 	}
@@ -68,11 +68,11 @@ public class PersonVO implements Serializable {
 		this.gender = gender;
 	}
 
-	public String getEnabled() {
+	public Boolean getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(String enabled) {
+	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
 
