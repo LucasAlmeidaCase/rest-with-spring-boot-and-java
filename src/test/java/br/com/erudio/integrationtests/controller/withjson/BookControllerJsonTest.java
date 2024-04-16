@@ -130,7 +130,7 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 	@Order(5)
 	public void testDelete() {
 		given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON).pathParam("id", book.getId()).when()
-		.delete("{id}").then().statusCode(204);
+				.delete("{id}").then().statusCode(204);
 	}
 
 	@Test

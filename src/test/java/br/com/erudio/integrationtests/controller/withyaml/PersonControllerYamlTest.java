@@ -202,11 +202,11 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 	public void testDelete() throws JsonMappingException, JsonProcessingException {
 
 		given().spec(specification)
-		.config(RestAssuredConfig.config()
-				.encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(TestConfigs.CONTENT_TYPE_YML,
-						ContentType.TEXT)))
-		.contentType(TestConfigs.CONTENT_TYPE_YML).accept(TestConfigs.CONTENT_TYPE_YML)
-		.pathParam("id", person.getId()).when().delete("{id}").then().statusCode(204);
+				.config(RestAssuredConfig.config()
+						.encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(TestConfigs.CONTENT_TYPE_YML,
+								ContentType.TEXT)))
+				.contentType(TestConfigs.CONTENT_TYPE_YML).accept(TestConfigs.CONTENT_TYPE_YML)
+				.pathParam("id", person.getId()).when().delete("{id}").then().statusCode(204);
 	}
 
 	@Test
@@ -264,11 +264,11 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 				.addFilter(new ResponseLoggingFilter(LogDetail.ALL)).build();
 
 		given().spec(specificationWithoutToken)
-		.config(RestAssuredConfig.config()
-				.encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(TestConfigs.CONTENT_TYPE_YML,
-						ContentType.TEXT)))
-		.contentType(TestConfigs.CONTENT_TYPE_YML).accept(TestConfigs.CONTENT_TYPE_YML).when().get().then()
-		.statusCode(403);
+				.config(RestAssuredConfig.config()
+						.encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(TestConfigs.CONTENT_TYPE_YML,
+								ContentType.TEXT)))
+				.contentType(TestConfigs.CONTENT_TYPE_YML).accept(TestConfigs.CONTENT_TYPE_YML).when().get().then()
+				.statusCode(403);
 	}
 
 	private void mockPerson() {

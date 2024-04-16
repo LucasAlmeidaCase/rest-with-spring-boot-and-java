@@ -184,7 +184,7 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 	public void testDelete() throws JsonMappingException, JsonProcessingException {
 
 		given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_XML).accept(TestConfigs.CONTENT_TYPE_XML)
-		.pathParam("id", person.getId()).when().delete("{id}").then().statusCode(204);
+				.pathParam("id", person.getId()).when().delete("{id}").then().statusCode(204);
 	}
 
 	@Test
@@ -239,7 +239,7 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 				.addFilter(new ResponseLoggingFilter(LogDetail.ALL)).build();
 
 		given().spec(specificationWithoutToken).contentType(TestConfigs.CONTENT_TYPE_XML)
-		.accept(TestConfigs.CONTENT_TYPE_XML).when().get().then().statusCode(403);
+				.accept(TestConfigs.CONTENT_TYPE_XML).when().get().then().statusCode(403);
 	}
 
 	private void mockPerson() {

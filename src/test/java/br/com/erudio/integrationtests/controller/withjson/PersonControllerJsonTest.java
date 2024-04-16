@@ -55,9 +55,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		AccountCredentialsVO user = new AccountCredentialsVO("leandro", "admin123");
 
 		var accessToken = given().basePath("/auth/signin").port(TestConfigs.SERVER_PORT)
-				.contentType(TestConfigs.CONTENT_TYPE_JSON)
-				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_ERUDIO).body(user).when().post().then()
-				.statusCode(200).extract().body().as(TokenVO.class).getAccessToken();
+				.contentType(TestConfigs.CONTENT_TYPE_JSON).body(user).when().post().then().statusCode(200).extract()
+				.body().as(TokenVO.class).getAccessToken();
 
 		specification = new RequestSpecBuilder()
 				.addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + accessToken)
@@ -84,8 +83,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(persistedPerson.getLastName());
 		assertNotNull(persistedPerson.getAddress());
 		assertNotNull(persistedPerson.getGender());
-		assertTrue(persistedPerson.getEnabled());
 
+		assertTrue(persistedPerson.getEnabled());
 		assertTrue(persistedPerson.getId() > 0);
 
 		assertEquals("Nelson", persistedPerson.getFirstName());
@@ -127,8 +126,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	public void testDisablePersonById() throws JsonMappingException, JsonProcessingException {
 
 		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON)
-				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_ERUDIO).pathParam("id", person.getId())
-				.when().patch("{id}").then().statusCode(200).extract().body().asString();
+				.pathParam("id", person.getId()).when().patch("{id}").then().statusCode(200).extract().body()
+				.asString();
 
 		PersonVO persistedPerson = objectMapper.readValue(content, PersonVO.class);
 		person = persistedPerson;
@@ -156,8 +155,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		mockPerson();
 
 		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON)
-				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_ERUDIO).pathParam("id", person.getId())
-				.when().get("{id}").then().statusCode(200).extract().body().asString();
+				.pathParam("id", person.getId()).when().get("{id}").then().statusCode(200).extract().body().asString();
 
 		PersonVO persistedPerson = objectMapper.readValue(content, PersonVO.class);
 		person = persistedPerson;
@@ -184,7 +182,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	public void testDelete() throws JsonMappingException, JsonProcessingException {
 
 		given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON).pathParam("id", person.getId()).when()
-		.delete("{id}").then().statusCode(204);
+				.delete("{id}").then().statusCode(204);
 	}
 
 	@Test
@@ -210,7 +208,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 
 		assertEquals("Ayrton", foundPersonOne.getFirstName());
 		assertEquals("Senna", foundPersonOne.getLastName());
-		assertEquals("Brasília - DF - Brasil", foundPersonOne.getAddress());
+		assertEquals("São Paulo", foundPersonOne.getAddress());
 		assertEquals("Male", foundPersonOne.getGender());
 
 		PersonVO foundPersonSix = people.get(5);
@@ -239,7 +237,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 				.addFilter(new ResponseLoggingFilter(LogDetail.ALL)).build();
 
 		given().spec(specificationWithoutToken).contentType(TestConfigs.CONTENT_TYPE_JSON).when().get().then()
-		.statusCode(403);
+				.statusCode(403);
 	}
 
 	private void mockPerson() {

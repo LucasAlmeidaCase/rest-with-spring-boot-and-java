@@ -111,6 +111,7 @@ class BookServicesTest {
 	@Test
 	void testCreate() {
 		Book entity = input.mockEntity(1);
+		entity.setId(1L);
 
 		Book persisted = entity;
 		persisted.setId(1L);
@@ -148,7 +149,6 @@ class BookServicesTest {
 	@Test
 	void testUpdate() {
 		Book entity = input.mockEntity(1);
-		entity.setId(1L);
 
 		Book persisted = entity;
 		persisted.setId(1L);
