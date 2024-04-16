@@ -12,7 +12,8 @@ public class OpenApiConfig {
 
 	@Bean
 	OpenAPI customOpenAPI() {
-		return new OpenAPI().info(new Info().title("RESTFul API with Java 17 and Spring Boot 3").version("v1")
+		return new OpenAPI().info(new Info()
+				.title("REST API's RESTful from 0 to AWS  with Java 21,  Spring Boot 3.2.0 and Docker").version("v1")
 				.description("Some description about your API").termsOfService("https://pub.erudio.com.br/meus-cursos")
 				.license(new License().name("Apache 2.0").url("https://pub.erudio.com.br/meus-cursos")));
 	}

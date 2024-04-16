@@ -2,7 +2,6 @@ package br.com.erudio.data.vo.v1;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
 
@@ -23,14 +22,6 @@ public class BookVO extends RepresentationModel<BookVO> implements Serializable 
 	private String title;
 
 	public BookVO() {
-	}
-
-	public BookVO(Long key, String author, Date launchDate, Double price, String title) {
-		this.key = key;
-		this.author = author;
-		this.launchDate = launchDate;
-		this.price = price;
-		this.title = title;
 	}
 
 	public Long getKey() {
@@ -77,7 +68,11 @@ public class BookVO extends RepresentationModel<BookVO> implements Serializable 
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(author, key, launchDate, price, title);
+		result = prime * result + ((author == null) ? 0 : author.hashCode());
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
+		result = prime * result + ((launchDate == null) ? 0 : launchDate.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
 
@@ -90,8 +85,31 @@ public class BookVO extends RepresentationModel<BookVO> implements Serializable 
 		if (getClass() != obj.getClass())
 			return false;
 		BookVO other = (BookVO) obj;
-		return Objects.equals(author, other.author) && Objects.equals(key, other.key)
-				&& Objects.equals(launchDate, other.launchDate) && Objects.equals(price, other.price)
-				&& Objects.equals(title, other.title);
+		if (author == null) {
+			if (other.author != null)
+				return false;
+		} else if (!author.equals(other.author))
+			return false;
+		if (key == null) {
+			if (other.key != null)
+				return false;
+		} else if (!key.equals(other.key))
+			return false;
+		if (launchDate == null) {
+			if (other.launchDate != null)
+				return false;
+		} else if (!launchDate.equals(other.launchDate))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
 	}
 }

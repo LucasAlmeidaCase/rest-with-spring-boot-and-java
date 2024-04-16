@@ -51,7 +51,7 @@ public class JwtTokenProvider {
 
 		return new TokenVO(username, true, now, validity, accessToken, refreshToken);
 	}
-	
+
 	public TokenVO refreshToken(String refreshToken) {
 		if (refreshToken.contains("Bearer "))
 			refreshToken = refreshToken.substring("Bearer ".length());
@@ -63,9 +63,9 @@ public class JwtTokenProvider {
 	}
 
 	private String getAccessToken(String username, List<String> roles, Date now, Date validity) {
-		String issueUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+		String issuerUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
 		return JWT.create().withClaim("roles", roles).withIssuedAt(now).withExpiresAt(validity).withSubject(username)
-				.withIssuer(issueUrl).sign(algorithm).strip();
+				.withIssuer(issuerUrl).sign(algorithm).strip();
 	}
 
 	private String getRefreshToken(String username, List<String> roles, Date now) {
@@ -74,7 +74,7 @@ public class JwtTokenProvider {
 				.withSubject(username).sign(algorithm).strip();
 	}
 
-	public Authentication getAuthetication(String token) {
+	public Authentication getAuthentication(String token) {
 		DecodedJWT decodedJWT = decodedToken(token);
 		UserDetails userDetails = this.userDetailsService.loadUserByUsername(decodedJWT.getSubject());
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
@@ -90,13 +90,15 @@ public class JwtTokenProvider {
 	public String resolveToken(HttpServletRequest req) {
 		String bearerToken = req.getHeader("Authorization");
 
+		// Bearer
+		// eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZWFuZHJvIiwicm9sZXMiOlsiQURNSU4iLCJNQU5BR0VSIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImV4cCI6MTY1MjcxOTUzOCwiaWF0IjoxNjUyNzE1OTM4fQ.muu8eStsRobqLyrFYLHRiEvOSHAcss4ohSNtmwWTRcY
 		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
 			return bearerToken.substring("Bearer ".length());
 		}
 		return null;
 	}
 
-	public boolean validateToken(String token) throws InvalidJwtAuthenticationException {
+	public boolean validateToken(String token) {
 		DecodedJWT decodedJWT = decodedToken(token);
 		try {
 			if (decodedJWT.getExpiresAt().before(new Date())) {
