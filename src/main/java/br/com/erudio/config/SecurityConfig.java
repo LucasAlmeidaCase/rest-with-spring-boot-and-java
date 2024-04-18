@@ -29,7 +29,7 @@ public class SecurityConfig {
 	private JwtTokenProvider tokenProvider;
 
 	@Bean
-	PasswordEncoder passwordEnconter() {
+	PasswordEncoder passwordEncoder() {
 		Map<String, PasswordEncoder> encoders = new HashMap<>();
 
 		Pbkdf2PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder("", 8, 185000,
@@ -51,19 +51,25 @@ public class SecurityConfig {
 		JwtTokenFilter customFilter = new JwtTokenFilter(tokenProvider);
 
 		//@formatter:off
-		return http.httpBasic(basic -> basic.disable()).csrf(csrf -> csrf.disable())
+		return http
+				.httpBasic(basic -> basic.disable())
+				.csrf(csrf -> csrf.disable())
 				.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class)
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+				.sessionManagement(
+						session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authorizeHttpRequests(
+						authorizeHttpRequests -> authorizeHttpRequests
 						.requestMatchers(
 								"/auth/signin",
-								"auth/refresh/**",
+								"/auth/refresh/**",
 								"/swagger-ui/**",
-								"/v3/api-docs/**").permitAll()
+								"/v3/api-docs/**"
+								).permitAll()
 						.requestMatchers("/api/**").authenticated()
-						.requestMatchers("/users").denyAll())
-				.cors(cors -> {
-				}).build();
-		//formatter:on
+						.requestMatchers("/users").denyAll()
+						)
+				.cors(cors -> {})
+				.build();
+		//@formatter:on
 	}
 }

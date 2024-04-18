@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
-import br.com.erudio.exceptions.InvalidJwtAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -27,16 +26,12 @@ public class JwtTokenFilter extends GenericFilterBean {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		String token = tokenProvider.resolveToken((HttpServletRequest) request);
-		try {
-			if (token != null && tokenProvider.validateToken(token)) {
-				Authentication auth = tokenProvider.getAuthetication(token);
-				if (auth != null) {
-					SecurityContextHolder.getContext().setAuthentication(auth);
-				}
+		if (token != null && tokenProvider.validateToken(token)) {
+			Authentication auth = tokenProvider.getAuthentication(token);
+			if (auth != null) {
+				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
-			chain.doFilter(request, response);
-		} catch (InvalidJwtAuthenticationException e) {
-			e.printStackTrace();
 		}
+		chain.doFilter(request, response);
 	}
 }

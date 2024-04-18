@@ -25,14 +25,14 @@ public class AuthController {
 	AuthServices authServices;
 
 	@SuppressWarnings("rawtypes")
-	@Operation(summary = "Autheticates a user and returns a token")
+	@Operation(summary = "Authenticates a user and returns a token")
 	@PostMapping(value = "/signin")
 	public ResponseEntity signin(@RequestBody AccountCredentialsVO data) {
 		if (checkIfParamsIsNotNull(data))
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 		var token = authServices.signin(data);
 		if (token == null)
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid token request!");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 		return token;
 	}
 
@@ -45,7 +45,7 @@ public class AuthController {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 		var token = authServices.refreshToken(username, refreshToken);
 		if (token == null)
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid token request!");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 		return token;
 	}
 

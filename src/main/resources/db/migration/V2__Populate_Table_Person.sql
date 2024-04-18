@@ -49,7 +49,7 @@ VALUES
 
 (
    9,
-   'Mvezo – South Africa',
+   'Mvezo - South Africa',
    'Nelson',
    'Male',
    'Mandela'
