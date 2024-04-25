@@ -187,10 +187,9 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	@Order(6)
 	public void testFindAll() throws JsonMappingException, JsonProcessingException {
 
-		var content = given().spec(specification)
-				.queryParams("page", 3, "size", 10, "direction", "asc")
-				.contentType(TestConfigs.CONTENT_TYPE_JSON).when().get().then()
-				.statusCode(200).extract().body().asString();
+		var content = given().spec(specification).queryParams("page", 3, "size", 10, "direction", "asc")
+				.contentType(TestConfigs.CONTENT_TYPE_JSON).when().get().then().statusCode(200).extract().body()
+				.asString();
 
 		WrapperPersonVO wrapper = objectMapper.readValue(content, WrapperPersonVO.class);
 		var people = wrapper.getEmbedded().getPersons();
