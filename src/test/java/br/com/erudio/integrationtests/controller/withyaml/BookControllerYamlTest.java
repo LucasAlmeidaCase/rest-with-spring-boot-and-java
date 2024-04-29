@@ -207,8 +207,8 @@ public class BookControllerYamlTest extends AbstractIntegrationTest {
 
 		assertTrue(content.contains(
 				"rel: \"first\"  href: \"http://localhost:8888/api/book/v1?direction=asc&page=0&size=12&sort=title,asc\""));
-		assertTrue(content
-				.contains("rel: \"self\"  href: \"http://localhost:8888/api/book/v1?page=0&size=12&direction=asc\""));
+		assertTrue(content.contains(
+				"rel: \"self\"  href: \"http://localhost:8888/api/book/v1?page=0&size=12&direction=asc\""));
 		assertTrue(content.contains(
 				"rel: \"next\"  href: \"http://localhost:8888/api/book/v1?direction=asc&page=1&size=12&sort=title,asc\""));
 		assertTrue(content.contains(
