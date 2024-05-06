@@ -2,7 +2,8 @@ name: Continuous Integration with GitHub Actions
 
 on:
   push:
-    branches: 
+    branches:
+      - main
       - 22_DockerizandoAplicacao
 jobs:
   build:
